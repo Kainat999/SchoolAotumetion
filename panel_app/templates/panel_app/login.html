@@ -1,0 +1,107 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>School Automation System | Log In</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<style>
+    .quote-container {
+        background: linear-gradient(to right, #f8f9fa, #e9ecef);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    .quote-text {
+        font-size: 28px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+        font-family: 'Source Sans Pro', sans-serif;
+        line-height: 1.4;
+    }
+
+    .quote-author {
+        font-size: 20px;
+        color: #666;
+        font-style: italic;
+        font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    .login-img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    
+</style>
+
+<body>
+    <div class="m-5 p-5 bg-dark">
+        <div class="row justify-content-center align-items-center shadow-lg m-5 p-5 bg-light" style="height: 100vh;">
+
+            <div class="col-md-6 ">
+            <h1 class="text-center mb-4">School Automation System</h1>
+            {% if messages %}
+                    <div class="alert alert-danger">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                <form action="doLogin/" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input required type="email" name='email' class="form-control" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <input required type="password" name='password' class="form-control" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="remember">
+                            <label class="form-check-label" for="remember">Remember Me</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block">Log In</button>
+                    </div>
+                </form>
+                <p class="text-center">
+                    <a href="{% url 'password_reset' %}" class='btn btn-danger btn-block'>Forgot Password?</a>
+                </p>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSCfU8B12FDypYeIJiTCVdosztYfVo2pJxPw&s" alt="School Image" class="login-img">
+                <div class="quote-container">
+                    <p class="quote-text">"Education is not the filling of a pail, but the lighting of a fire."</p>
+                    <p class="quote-author">- William Butler Yeats</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 4 JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+
+</html>

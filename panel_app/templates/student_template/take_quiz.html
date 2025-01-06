@@ -1,0 +1,42 @@
+<!-- take_quiz.html -->
+
+{% extends 'panel_app/base.html' %}
+{% block page_title %}Take Quiz - {{ assessment.title }}{% endblock page_title %}
+{% block content %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-dark">
+                    <div class="card-header">
+                        <h3 class="card-title">Take Quiz - {{ assessment.title }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            {% for question in questions %}
+                            <div class="form-group">
+                                <label>{{ question.text }}</label>
+                                {% if question.is_multiple_choice %}
+                                <div class="form-check">
+                                    {% for option in question.option_set.all %}
+                                    <input type="radio" id="option{{ option.id }}" name="question{{ question.id }}" value="{{ option.id }}" class="form-check-input">
+                                    <label for="option{{ option.id }}" class="form-check-label">{{ option.text }}</label><br>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <textarea name="question{{ question.id }}" id="question{{ question.id }}" rows="4" class="form-control"></textarea>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

@@ -1,0 +1,105 @@
+{% extends 'panel_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+{% block content %}
+<div class="container mt-5">
+    {% comment %} {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <p class="text-success"{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %} {% endcomment %}
+    
+    <h2 class="text-center mb-4">{{ assessment.name }}</h2>
+
+    {% if has_taken_assessment %}
+    <div class="alert alert-info" role="alert">
+        You have already taken this assessment.
+
+        {% if assessment.type == "assignment" %}
+    <p><strong>Your uploaded assignment file:</strong> <a href="{{ user_assignment.answer_file.url }}" target="_blank" download>Download it here</a>.</p>
+    <ul>
+        {% for user_answer in user_answers %}
+            <li>
+                Status: 
+                {% if user_answer.is_correct == True %}
+                    <h3 class="text-success">Checked</h3>
+                {% elif user_answer.is_correct == False %}
+                    <h3 class="text-danger">Not checked Yet.</h3>
+                    <form method="post" action="{% url 'stu_assessment_take' assessment.id %}">
+                        {% csrf_token %}
+                        {% for option in user_answer.question.option_set.all %}
+                            <input type="radio" name="answer_for_{{ user_answer.question.id }}" value="{{ option.id }}"> 
+                            {{ option.text }} 
+                        {% endfor %}
+                        <input type="submit" value="Submit Answer">
+                    </form>
+                {% else %}
+                    <p class = "text-warning">Pending review....</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% elif assessment.type == "exam" %}
+        Here are your answers:
+        <ul>
+            {% for user_answer in user_answers %}
+            <li>
+                Question: {{ user_answer.question.text }}
+                <br>
+                Your Answer: {{ user_answer.answer }}
+                <br>
+                Status: 
+                {% if user_answer.is_correct == True %}
+                    <p class="text-success">Checked</p>
+                {% elif user_answer.is_correct == False %}
+                    <p class "text-danger">Not Checked Yet</p>
+                {% else %}
+                    <p class = "text-warning">Pending review....</p>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    {% else %}
+        <form method="post" action="{% url 'stu_assessment_take' assessment.id %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for item in questions_with_options %}
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    {{ item.question.text }}
+                </div>
+                <div class="card-body">
+                    {% if assessment.type == "assignment" %}
+                    <div>
+                        <label for="file_for_{{ item.question.id }}">Upload Assignment:</label>
+                        <input type="file" id="file_for_{{ item.question.id }}" name="file_for_{{ item.question.id }}">
+                    </div>
+                    {% elif assessment.type == "exam" %}
+                    <div class="form-group">
+                        <label for="text_answer_for_{{ item.question.id }}" class="form-label">Your Answer:</label>
+                        <textarea class="form-control" id="text_answer_for_{{ item.question.id }}" name="text_answer_for_{{ item.question.id }}" rows="5"></textarea>
+                    </div>
+                    
+                    {% else %}
+                    <ul class="list-group mb-3">
+                        {% for option in item.options %}
+                        <li class="list-group-item">
+                            <input type="radio" name="answer_for_{{ item.question.id }}" value="{{ option.id }}"> 
+                            {{ option.text }} 
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            <div class="text-center">
+                <input type="submit" value="Submit" class="btn btn-primary">
+            </div>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}

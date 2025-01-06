@@ -1,0 +1,28 @@
+{% extends 'panel_app/base.html' %}
+{% load static %}
+{% block page_title %}Submit Assignment: {{ assessment.title }}{% endblock page_title %}
+
+{% block content %}
+    <h1>Submit Assignment: {{ assessment.title }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        {% for question in questions %}
+            <h3>{{ question.text }}</h3>
+            {% if assessment.type == 'quiz' %}
+                {% for option in options %}
+                    <label>
+                        <input type="radio" name="question_{{ question.id }}" value="{{ option.id }}"> 
+                        {{ option.text }}
+                    </label><br>
+                {% endfor %}
+            {% else %}
+                <textarea name="question_{{ question.id }}" rows="4" cols="50"></textarea><br>
+            {% endif %}
+        {% endfor %}
+
+        <button type="submit">Submit</button>
+    </form>
+{% endblock content %}
