@@ -1,0 +1,19 @@
+{% extends 'panel_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Assessments</h2>
+    <a href="{% url 'create_edit_assessment' %}" class="btn btn-primary mb-3">Create Assessment</a>
+    <ul class="list-group">
+        {% for assessment in assessments %}
+        <li class="list-group-item">
+            {{ assessment.name }} - {{ assessment.type }}
+            <a href="{% url 'edit_assessment' assessment.id %}" class="btn btn-sm btn-warning">Edit</a>
+            <a href="{% url 'add_question' assessment.id %}" class="btn btn-sm btn-info">Add Questions</a>
+            <a href="{% url 'view_user_answers' assessment.id %}" class="btn btn-sm btn-info">View Submissions</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

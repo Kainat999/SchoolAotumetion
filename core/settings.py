@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # My Apps
-    'panel_app.apps.MainAppConfig'
+    'panel_app.apps.MainAppConfig',
+    'assesments'
 ]
 
 MIDDLEWARE = [

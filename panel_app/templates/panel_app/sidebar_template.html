@@ -356,17 +356,17 @@
                                 </a>
                             </li>
 
-                            {% comment %} <li class="nav-item">
-                                {% url 'sta_assessment_list' as sta_assessment_list %}
-                                <a href="{{sta_assessment_list}}"
-                                    class="nav-link {% if sta_assessment_list == request.path %} active {% endif %}">
+                            <li class="nav-item">
+                                {% url 'assessment_Tlist' as assessment_Tlist %}
+                                <a href="{{assessment_Tlist}}"
+                                    class="nav-link {% if assessment_Tlist == request.path %} active {% endif %}">
                                     <i class="nav-icon fas fa-th"></i>
                                     <p>
                                         Add Assessments
 
                                     </p>
                                 </a>
-                            </li> {% endcomment %}
+                            </li> 
 
 
                             <li class="nav-item">
@@ -501,9 +501,9 @@
                                         </li>
 
                                         <li class="nav-item">
-                                            {% url 'stu_assessment_list' as stu_assessment_list %}
-                                            <a href="{{stu_assessment_list}}"
-                                                class="nav-link {% if stu_assessment_list == request.path %} active {% endif %}">
+                                            {% url 'assessment_list' as assessment_list %}
+                                            <a href="{{assessment_list}}"
+                                                class="nav-link {% if assessment_list == request.path %} active {% endif %}">
                                                 <i class="nav-icon fas fa-check"></i>
                                                 <p>
                                                     Assessment List

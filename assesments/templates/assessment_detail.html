@@ -3,13 +3,13 @@
 {% block page_title %}{{page_title}}{% endblock page_title %}
 {% block content %}
 <div class="container mt-5">
-    {% comment %} {% if messages %}
+    {% if messages %}
     <div class="messages">
         {% for message in messages %}
         <p class="text-success"{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
         {% endfor %}
     </div>
-    {% endif %} {% endcomment %}
+    {% endif %}
     
     <h2 class="text-center mb-4">{{ assessment.name }}</h2>
 
@@ -24,10 +24,10 @@
             <li>
                 Status: 
                 {% if user_answer.is_correct == True %}
-                    <h3 class="text-success">Checked</h3>
+                    <h3 class="bg-success">Correct</h3>
                 {% elif user_answer.is_correct == False %}
-                    <h3 class="text-danger">Not checked Yet.</h3>
-                    <form method="post" action="{% url 'stu_assessment_take' assessment.id %}">
+                    <h3 class="bg-danger">Incorrect. Please try again.</h3>
+                    <form method="post" action="{% url 'assessment_take' assessment.id %}">
                         {% csrf_token %}
                         {% for option in user_answer.question.option_set.all %}
                             <input type="radio" name="answer_for_{{ user_answer.question.id }}" value="{{ option.id }}"> 
@@ -36,7 +36,7 @@
                         <input type="submit" value="Submit Answer">
                     </form>
                 {% else %}
-                    <p class = "text-warning">Pending review....</p>
+                    <p class = "bg-warning">Pending review....</p>
                 {% endif %}
             </li>
         {% endfor %}
@@ -52,11 +52,11 @@
                 <br>
                 Status: 
                 {% if user_answer.is_correct == True %}
-                    <p class="text-success">Checked</p>
+                    <p class="bg-success h3">Correct</p>
                 {% elif user_answer.is_correct == False %}
-                    <p class "text-danger">Not Checked Yet</p>
+                    <p class "bg-danger h3">Incorrect</p>
                 {% else %}
-                    <p class = "text-warning">Pending review....</p>
+                    <p class = "bg-warning h3">Pending review....</p>
                 {% endif %}
             </li>
             {% endfor %}
@@ -64,7 +64,7 @@
         {% endif %}
     </div>
     {% else %}
-        <form method="post" action="{% url 'stu_assessment_take' assessment.id %}" enctype="multipart/form-data">
+        <form method="post" action="{% url 'assessment_take' assessment.id %}" enctype="multipart/form-data">
             {% csrf_token %}
             {% for item in questions_with_options %}
             <div class="card mb-4">

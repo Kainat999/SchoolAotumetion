@@ -15,33 +15,33 @@
             {% for assessment in assessments %}
             {% if assessment.type == "assignment" %}
             <div class="mb-3 bg-info w-50">
-                <a href="{% url 'stu_assessment_detail' assessment.id %}" class="btn btn-block {{ assessment.type|lower }}-btn">{{ assessment.name }}</a>
+                <a href="{% url 'assessment_detail' assessment.id %}" class="btn btn-block {{ assessment.type|lower }}-btn">{{ assessment.name }}</a>
             </div>
 
             {% elif assessment.type == "exam" %}
             <div class="mb-3 w-50 bg-warning ">
-                <a href="{% url 'stu_assessment_detail' assessment.id %}" class="btn btn-block {{ assessment.type|lower }}-btn">{{ assessment.name }}</a>
+                <a href="{% url 'assessment_detail' assessment.id %}" class="btn btn-block {{ assessment.type|lower }}-btn">{{ assessment.name }}</a>
             </div>
             {% elif assessment.type == "quiz" %}
             <div class="mb-3 w-50 bg-success">
-                <a href="{% url 'stu_assessment_detail' assessment.id %}" class="btn btn-block {{ assessment.type|lower }}-btn">{{ assessment.name }}</a>
+                <a href="{% url 'assessment_detail' assessment.id %}" class="btn btn-block {{ assessment.type|lower }}-btn">{{ assessment.name }}</a>
             </div>
             {% else %}
             <div class="mb-3">
-                <a href="{% url 'stu_assessment_detail' assessment.id %}" class="btn btn-block {{ assessment.type|lower }}-btn">{{ assessment.name }}</a>
+                <a href="{% url 'assessment_detail' assessment.id %}" class="btn btn-block {{ assessment.type|lower }}-btn">{{ assessment.name }}</a>
             </div>
             {% endif %}
                 
             {% endfor %}
         </div>
         <div class="legend col-md-4">
-            <div class="mb-3 bg-info w-25">
+            <div class="mb-3 p-2 bg-info w-25">
                 <span class="legend-text">Assignment</span>
             </div>
-            <div class="mb-3 w-25 bg-warning ">
+            <div class="mb-3 p-2 w-25 bg-warning ">
                 <span class="legend-text">Exam</span>
             </div>
-            <div class="mb-3 w-25 bg-success">
+            <div class="mb-3 p-2 w-25 bg-success">
                 <span class="legend-text">Quiz</span>
             </div>
         </div>

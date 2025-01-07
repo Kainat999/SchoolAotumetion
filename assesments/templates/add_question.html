@@ -1,0 +1,13 @@
+{% extends 'panel_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Add Question to {{ assessment.name }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Add Question</button>
+    </form>
+</div>
+{% endblock %}

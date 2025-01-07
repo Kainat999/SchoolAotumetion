@@ -1,0 +1,34 @@
+{% extends 'panel_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Submissions for {{ assessment.name }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <ul class="list-group">
+            {% for answer in user_answers %}
+            <li class="list-group-item">
+                User: {{ answer.user }}
+                <br>
+                Question: {{ answer.question.text }}
+                <br>
+                Answer: {{ answer.answer }}
+                <br>
+                {% if answer.answer_file %}
+                File: <a href="{{ answer.answer_file.url }}" target="_blank">Download</a>
+                {% endif %}
+                <br>
+                Status:
+                <select name="is_correct_for_{{ answer.id }}">
+                    <option value="correct" {% if answer.is_correct %}selected{% endif %}>Correct</option>
+                    <option value="incorrect" {% if answer.is_correct == False %}selected{% endif %}>Incorrect</option>
+                    <option value="pending" {% if answer.is_correct == None %}selected{% endif %}>Pending</option>
+                </select>
+            </li>
+            {% endfor %}
+        </ul>
+        <button type="submit" class="btn btn-primary mt-3">Update Status</button>
+    </form>
+</div>
+{% endblock %}

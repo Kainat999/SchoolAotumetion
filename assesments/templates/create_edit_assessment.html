@@ -1,0 +1,44 @@
+
+{% extends 'panel_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ action }} Assessment</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">{{ action }}</button>
+    </form>
+
+    {% if action == "Edit" %}
+    <div class="mt-4">
+        <h3>Manage Questions</h3>
+        <a href="{% url 'add_question' assessment.id %}" class="btn btn-primary mb-3">Add Question</a>
+        <ul class="list-group">
+            {% for question in questions %}
+            <li class="list-group-item">
+                {{ question.text }}
+                {% if assessment.type == "quiz" %}
+                <a href="{% url 'add_option' question.id %}" class="btn btn-sm btn-info">Add Options</a>
+                {% endif %}
+                <ul class="list-group mt-2">
+                    {% for option in question.option_set.all %}
+                    <li class="list-group-item">
+                        {{ option.text }} - 
+                        {% if option.is_correct %}
+                        <span class="text-success">Correct</span>
+                        {% else %}
+                        <span class="text-danger">Incorrect</span>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
